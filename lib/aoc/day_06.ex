@@ -2,17 +2,17 @@ defmodule AoC.Day06 do
   def part1(input) do
     input
     |> parse_input()
-    |> Enum.map(fn {t, d} -> t |> race() |> Enum.count(fn x -> x > d end) end)
+    |> Enum.map(fn {t, d} -> t |> race(d) |> Enum.count() end)
     |> Enum.product()
   end
 
   def part2(input) do
     {t, d} = input |> parse_input_2()
-    t |> race() |> Enum.count(fn x -> x > d end)
+    race(t, d) |> Enum.count()
   end
 
-  def race(t) do
-    Enum.map(1..(t - 1), fn i -> (t - i) * i end)
+  def race(t, d) do
+    Stream.filter(1..(t - 1), fn i -> (t - i) * i > d end)
   end
 
   def parse_input(input) do
